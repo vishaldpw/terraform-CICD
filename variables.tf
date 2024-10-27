@@ -15,7 +15,16 @@ variable "instance-name" {
   type = string
 }
 
+variable "instance-name2" {
+  type = string
+}
+
 variable "app" {
   type = string
 }
+
+variable "app2" {
+  type = string
+}
+
 
