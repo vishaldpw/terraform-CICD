@@ -22,10 +22,6 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Download state file
-        uses: actions/download-artifact@v3
-        with:
-          name: terraform-state
 
       # Terraform destroy
       - name: Terraform destroy
