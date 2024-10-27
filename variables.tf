@@ -18,3 +18,6 @@ variable "instance-name2" {
   type = string
 }
 
+variable "instance-name3" {
+  type = string
+}

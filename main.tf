@@ -12,6 +12,16 @@ resource "aws_instance" "my-db" {
   instance_type = var.instance_type
   tags = {
     Name = var.instance-name2
-    application = "rundeck"
+    application = "rundeck-db"
+  }
+}
+
+
+resource "aws_instance" "my-db2" {
+  ami           = var.ami
+  instance_type = var.instance_type
+  tags = {
+    Name = var.instance-name3
+    application = "rundeck-db"
   }
 }
