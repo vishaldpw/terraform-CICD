@@ -13,3 +13,8 @@ variable "instance_type" {
 variable "instance-name" {
   type = string
 }
+
+variable "instance-name2" {
+  type = string
+}
+
