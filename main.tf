@@ -17,5 +17,5 @@
 # }
 
 module "ec2_iam_role" {
-  source = "../modules/ec2"
+  source = "modules/ec2"
 }
