@@ -1,21 +1,10 @@
-# resource "aws_instance" "my-ec2" {
-#   ami           = var.ami
-#   instance_type = var.instance_type
-#   tags = {
-#     Name = var.instance-name
-#     application = var.app
-#   }
-# }
 
-# resource "aws_instance" "my-ec2-2" {
-#   ami           = var.ami
-#   instance_type = var.instance_type
-#   tags = {
-#     Name = var.instance-name2
-#     application = var.app2
-#   }
-# }
-
-module "ec2_iam_role" {
+module "ec2_instances" {
   source = "./modules/ec2"
+  ami           = "ami-00eb69d236edcfaf8"
+  instance_type = "t2.micro"
+  instance-name = "Vishal-test-app"
+  instance-name2 = "Vishal-test-db"
+  app = "stackstorm"
+  app2 = "stackstorm-db"
 }
