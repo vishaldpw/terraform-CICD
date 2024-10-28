@@ -16,6 +16,6 @@
 #   }
 # }
 
-module "ec2-2instances" {
+module "ec2_iam_role" {
   source = "../modules/ec2"
 }
