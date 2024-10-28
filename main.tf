@@ -9,7 +9,7 @@ module "ec2_instances" {
   app2           = "stackstorm-db"
 }
 
-module "ec2_instances" {
+module "ec2_instances_2" {
   source         = "./modules/ec2"
   ami            = "ami-00eb69d236edcfaf8"
   instance_type  = "t2.micro"
