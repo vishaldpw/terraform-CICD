@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ansible
+          pip install ansible boto3 botocore
           sudo apt-get install -y jq
 
       - name: Parse hostnames from tfstate file with tag "redis"
@@ -48,6 +48,12 @@ jobs:
           echo "Filtered Hostnames with tag 'redis': $HOSTNAMES"
           echo "hosts=$HOSTNAMES" >> $GITHUB_ENV
 
+      - name: Set up SSH key
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ steps.parse_hosts.outputs.hosts }} >> ~/.ssh/known_hosts  # Optional: bypasses host key verification
+
       - name: Create Ansible inventory
         run: |
           echo "[redis_hosts]" > inventory.ini
@@ -56,9 +62,11 @@ jobs:
           done
 
       - name: Run Ansible Playbook to install Redis
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
         run: |
           ansible-playbook -i inventory.ini install_redis.yml
 
       - name: Cleanup
         run: |
-          rm -f inventory.ini terraform.tfstate
+          rm -f inventory.ini terraform.tfstate ~/.ssh/id_rsa
