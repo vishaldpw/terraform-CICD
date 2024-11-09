@@ -17,10 +17,16 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           sudo apt-get install -y awscli
+          
+      - name: Configure AWS region
+        run: aws configure set region us-east-2
 
       - name: Download tfstate file from S3
         run: |
           aws s3 cp s3://terraform-statefile-2710/development/backend.tf terraform.tfstate
+
+      # The rest of your workflow steps follow...
+
 
       - name: Set up Python
         uses: actions/setup-python@v2
