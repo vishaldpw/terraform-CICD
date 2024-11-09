@@ -1,0 +1,56 @@
+name: Install Redis on Tagged Ubuntu Hosts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ansible-install-redis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up AWS credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          sudo apt-get install -y awscli
+
+      - name: Download tfstate file from S3
+        run: |
+          aws s3 cp s3://terraform-statefile-2710/development/backend.tf terraform.tfstate
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+          sudo apt-get install -y jq
+
+      - name: Parse hostnames from tfstate file with tag "redis"
+        id: parse_hosts
+        run: |
+          export HOSTNAMES=$(jq -r '.resources[] | select(.type == "aws_instance") | .instances[] | select(.attributes.tags.Name == "redis") | .attributes.public_dns' terraform.tfstate)
+          echo "Filtered Hostnames with tag 'redis': $HOSTNAMES"
+          echo "::set-output name=hosts::$HOSTNAMES"
+
+      - name: Create Ansible inventory
+        run: |
+          echo "[redis_hosts]" > inventory.ini
+          for host in ${{ steps.parse_hosts.outputs.hosts }}; do
+            echo "$host" >> inventory.ini
+          done
+
+      - name: Run Ansible Playbook to install Redis
+        run: |
+          ansible-playbook -i inventory.ini install_redis.yml
+
+      - name: Cleanup
+        run: |
+          rm -f inventory.ini terraform.tfstate
