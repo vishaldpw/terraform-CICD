@@ -11,22 +11,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up AWS credentials
+      - name: Set up AWS CLI
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-2
         run: |
-          run: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install --update
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+
       - name: Download tfstate file from S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 ls s3://terraform-statefile-2710/development/ --region us-east-2
           aws s3 cp s3://terraform-statefile-2710/development/backend.tf terraform.tfstate
 
       - name: Set up Python
@@ -45,12 +44,12 @@ jobs:
         run: |
           export HOSTNAMES=$(jq -r '.resources[] | select(.type == "aws_instance") | .instances[] | select(.attributes.tags.Name == "redis") | .attributes.public_dns' terraform.tfstate)
           echo "Filtered Hostnames with tag 'redis': $HOSTNAMES"
-          echo "::set-output name=hosts::$HOSTNAMES"
+          echo "hosts=$HOSTNAMES" >> $GITHUB_ENV
 
       - name: Create Ansible inventory
         run: |
           echo "[redis_hosts]" > inventory.ini
-          for host in ${{ steps.parse_hosts.outputs.hosts }}; do
+          for host in ${{ env.hosts }}; do
             echo "$host" >> inventory.ini
           done
 
