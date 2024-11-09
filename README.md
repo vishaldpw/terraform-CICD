@@ -4,6 +4,21 @@ This repository contains *workflows designed for infrastructure management* usin
 
 ---
 
+## *Tools Used*
+
+The following tools are utilized in the workflows to automate infrastructure provisioning, management, and decommissioning:
+
+### *Terraform*
+*Terraform* is an open-source infrastructure as code (IaC) tool that enables you to define and provision cloud infrastructure using a declarative configuration language. It is used in the workflows to automate the creation, modification, and teardown of cloud resources on platforms like *AWS*. With its built-in state management and powerful modules, *Terraform* ensures consistent and repeatable infrastructure setups.
+
+### *Ansible*
+*Ansible* is an open-source automation tool that simplifies the management of systems, applications, and IT infrastructure. It uses simple, human-readable YAML files (playbooks) to describe automation tasks. In these workflows, *Ansible* is used to install and configure *Redis* on *AWS EC2 instances*, using dynamic inventories to target specific hosts and ensuring the correct setup across multiple servers.
+
+### *GitHub Actions*
+*GitHub Actions* is a CI/CD and automation platform built into GitHub. It allows you to automate workflows and tasks based on events such as commits, pull requests, or manual triggers. In this repository, *GitHub Actions* is used to automate infrastructure provisioning with *Terraform*, configuration management with *Ansible*, and decommissioning of resources. It securely integrates with *GitHub Secrets* to handle sensitive data such as AWS credentials and SSH keys.
+
+---
+
 ## *Workflows*
 
 ### *1. Terraform Build Workflow*
