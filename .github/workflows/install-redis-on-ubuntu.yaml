@@ -43,13 +43,15 @@ jobs:
         id: parse_hosts
         run: |
           export HOSTNAMES=$(jq -r '.resources[] | select(.type == "aws_instance") | .instances[] | select(.attributes.tags.Name == "redis") | .attributes.public_dns' terraform.tfstate)
+          HOSTNAMES=$(echo "$HOSTNAMES" | tr '\n' ',')
+          HOSTNAMES=${HOSTNAMES%,}  # Remove trailing comma
           echo "Filtered Hostnames with tag 'redis': $HOSTNAMES"
           echo "hosts=$HOSTNAMES" >> $GITHUB_ENV
 
       - name: Create Ansible inventory
         run: |
           echo "[redis_hosts]" > inventory.ini
-          for host in ${{ env.hosts }}; do
+          for host in $(echo "${{ env.hosts }}" | tr ',' ' '); do
             echo "$host" >> inventory.ini
           done
 
