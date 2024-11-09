@@ -50,15 +50,17 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa  # Save and remove any line endings
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ steps.parse_hosts.outputs.hosts }} >> ~/.ssh/known_hosts  # Optional: bypasses host key verification
+          for host in $(echo "${{ env.hosts }}" | tr ',' '\n'); do
+            ssh-keyscan -H "$host" >> ~/.ssh/known_hosts  # Add hosts to known_hosts
+          done
 
       - name: Create Ansible inventory
         run: |
           echo "[redis_hosts]" > inventory.ini
           for host in $(echo "${{ env.hosts }}" | tr ',' ' '); do
-            echo "$host" >> inventory.ini
+            echo "$host ansible_ssh_private_key_file=~/.ssh/id_rsa" >> inventory.ini
           done
 
       - name: Run Ansible Playbook to install Redis
