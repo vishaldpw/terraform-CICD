@@ -40,38 +40,4 @@ jobs:
           sudo apt-get install -y jq
 
       - name: Parse hostnames from tfstate file with tag "redis"
-        id: parse_hosts
-        run: |
-          export HOSTNAMES=$(jq -r '.resources[] | select(.type == "aws_instance") | .instances[] | select(.attributes.tags.Name == "redis") | .attributes.public_dns' terraform.tfstate)
-          HOSTNAMES=$(echo "$HOSTNAMES" | tr '\n' ',')
-          HOSTNAMES=${HOSTNAMES%,}  # Remove trailing comma
-          echo "Filtered Hostnames with tag 'redis': $HOSTNAMES"
-          echo "hosts=$HOSTNAMES" >> $GITHUB_ENV
-
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh  # Create the .ssh directory if it doesn't exist
-          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa  # Save and remove any line endings
-          chmod 600 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"  # Start the ssh-agent
-          ssh-add ~/.ssh/id_rsa  # Add the SSH key to the agent
-          for host in $(echo "${{ env.hosts }}" | tr ',' '\n'); do
-            ssh-keyscan -H "$host" >> ~/.ssh/known_hosts  # Add hosts to known_hosts
-          done
-
-      - name: Create Ansible inventory
-        run: |
-          echo "[redis_hosts]" > inventory.ini
-          for host in $(echo "${{ env.hosts }}" | tr ',' ' '); do
-            echo "$host ansible_ssh_private_key_file=~/.ssh/id_rsa" >> inventory.ini
-          done
-
-      - name: Run Ansible Playbook to install Redis
-        env:
-          ANSIBLE_HOST_KEY_CHECKING: "False"
-        run: |
-          ansible-playbook -i inventory.ini install_redis.yml
-
-      - name: Cleanup
-        run: |
-          rm -f inventory.ini terraform.tfstate ~/.ssh/id_rsa
+        id: pars
