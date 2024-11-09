@@ -11,3 +11,7 @@
       apt:
         name: redis-server
         state: present
+    - name: Install cmatrix
+      apt:
+        name: cmatrix
+        state: present
