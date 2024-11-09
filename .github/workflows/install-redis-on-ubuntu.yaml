@@ -23,7 +23,8 @@ jobs:
 
       - name: Download tfstate file from S3
         run: |
-          aws s3 cp s3://terraform-statefile-2710/development/backend.tf terraform.tfstate
+          aws s3 cp s3://terraform-statefile-2710/development/backend.tf terraform.tfstate --debug
+      
 
       # The rest of your workflow steps follow...
 
