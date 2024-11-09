@@ -53,6 +53,8 @@ jobs:
           mkdir -p ~/.ssh  # Create the .ssh directory if it doesn't exist
           echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa  # Save and remove any line endings
           chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"  # Start the ssh-agent
+          ssh-add ~/.ssh/id_rsa  # Add the SSH key to the agent
           for host in $(echo "${{ env.hosts }}" | tr ',' '\n'); do
             ssh-keyscan -H "$host" >> ~/.ssh/known_hosts  # Add hosts to known_hosts
           done
