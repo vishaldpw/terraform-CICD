@@ -1,25 +1,3 @@
-
-module "ec2_instances" {
-  source         = "./modules/ec2"
-  ami            = "ami-00eb69d236edcfaf8"
-  instance_type  = "t2.micro"
-  instance-name  = "redis"
-  instance-name2 = "Vishal-test-db"
-  app            = "stackstorm"
-  app2           = "stackstorm-db"
-}
-
-module "ec2_instances_2" {
-  source         = "./modules/ec2"
-  ami            = "ami-00eb69d236edcfaf8"
-  instance_type  = "t2.micro"
-  instance-name  = "redis"
-  instance-name2 = "Vishal-test-db2"
-  app            = "stackstorm"
-  app2           = "stackstorm-db"
-}
-
-
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   name   = "my-vpc-2"
@@ -37,3 +15,16 @@ module "vpc" {
     Environment = "dev"
   }
 }
+
+module "ec2_instances" {
+  source         = "./modules/ec2"
+  ami            = "ami-00eb69d236edcfaf8"
+  instance_type  = "t2.micro"
+  instance-name  = "redis"
+
+  app            = "stackstorm"
+
+
+  subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
+}
+
