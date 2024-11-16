@@ -22,9 +22,22 @@ module "ec2_instances" {
   instance_type  = "t2.micro"
   instance-name  = "redis"
 
-  app            = "stackstorm"
+  app            = "Smart-Boy"
 
 
   subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
 }
+
+module "ec2_instances" {
+  source         = "./modules/ec2"
+  ami            = "ami-00eb69d236edcfaf8"
+  instance_type  = "t2.micro"
+  instance-name  = "mongo-DB"
+
+  app            = "Smart-Boy"
+
+
+  subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
+}
+
 
