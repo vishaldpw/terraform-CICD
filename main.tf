@@ -28,7 +28,7 @@ module "ec2_instances" {
   subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
 }
 
-module "ec2_instances" {
+module "ec2_instances-2" {
   source         = "./modules/ec2"
   ami            = "ami-00eb69d236edcfaf8"
   instance_type  = "t2.micro"
