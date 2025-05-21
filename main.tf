@@ -22,7 +22,7 @@ module "ec2_instances" {
   instance_type  = "t2.micro"
   instance-name  = "redis"
 
-  app            = "Smart-Boy"
+  app            = "Dull-Boy"
 
 
   subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
