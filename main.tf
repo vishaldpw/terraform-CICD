@@ -22,7 +22,7 @@ module "ec2_instances" {
   instance_type  = "t2.micro"
   instance-name  = "redis"
 
-  app            = "Dull-Boy"
+  app            = "cg-airoli"
 
 
   subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
@@ -34,7 +34,7 @@ module "ec2_instances-2" {
   instance_type  = "t2.micro"
   instance-name  = "mongo-DB"
 
-  app            = "Brown-Boy"
+  app            = "cg-vikhroli"
 
 
   subnet_id      = module.vpc.public_subnets[0] # Reference VPC's public subnet
