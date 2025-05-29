@@ -20,7 +20,7 @@ module "ec2_instances" {
   source        = "./modules/ec2"
   ami           = "ami-00eb69d236edcfaf8"
   instance_type = "t3.micro"
-  instance-name = "redis"
+  instance-name = "shooban"
 
   app = "cg-airoli-old"
 
@@ -32,7 +32,7 @@ module "ec2_instances-2" {
   source        = "./modules/ec2"
   ami           = "ami-00eb69d236edcfaf8"
   instance_type = "t3.micro"
-  instance-name = "vikhroli-old"
+  instance-name = "shubada"
 
   app = "cg-vikhroli-old"
 
