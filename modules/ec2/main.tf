@@ -3,7 +3,7 @@
 resource "aws_instance" "my-ec2" {
   ami                    = var.ami
   instance_type          = var.instance_type
-  key_name               = "black-Bottle"
+  key_name               = "key-may-2025"
   subnet_id              = var.subnet_id
   associate_public_ip_address = true  # This ensures the instance gets a public IP
 
