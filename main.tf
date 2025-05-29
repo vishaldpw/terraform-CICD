@@ -20,7 +20,7 @@ module "ec2_instances" {
   source        = "./modules/ec2"
   ami           = "ami-00eb69d236edcfaf8"
   instance_type = "t3.micro"
-  instance-name = "airoli-old"
+  instance-name = "redis"
 
   app = "cg-airoli-old"
 
