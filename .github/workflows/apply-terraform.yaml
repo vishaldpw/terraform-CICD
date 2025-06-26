@@ -3,6 +3,9 @@ name: Terraform Build Workflow
 on:
   workflow_dispatch:  # Trigger workflow manually from GitHub Actions
 
+permissions:
+  contents: read
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
