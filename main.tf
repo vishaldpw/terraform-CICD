@@ -20,7 +20,7 @@ module "ec2_instances" {
   source        = "./modules/ec2"
   ami           = "ami-00eb69d236edcfaf8"
   instance_type = "t3.micro"
-  instance-name = "shooban"
+  instance-name = "hema"
 
   app = "cg-airoli-old"
 
@@ -32,7 +32,7 @@ module "ec2_instances_2" {
   source        = "./modules/ec2"
   ami           = "ami-00eb69d236edcfaf8"
   instance_type = "t3.micro"
-  instance-name = "shubada"
+  instance-name = "rupa"
   app           = "cg-vikhroli-old"
   subnet_id     = module.vpc.public_subnets[0]
 }
