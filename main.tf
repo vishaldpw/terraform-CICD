@@ -42,7 +42,7 @@ module "ec2_instances" {
   ami                = var.ami
   instance_type      = var.instance_type
   key_name           = var.key_name
-  instance-name      = "hema"
+  instance-name      = "Pete"
   app                = "cg-airoli-old"
   subnet_id          = module.vpc.public_subnets[0]
   security_group_ids = [aws_security_group.ec2_ssh.id]
@@ -53,7 +53,7 @@ module "ec2_instances_2" {
   ami                = var.ami
   instance_type      = var.instance_type
   key_name           = var.key_name
-  instance-name      = "rupa"
+  instance-name      = "mike"
   app                = "cg-vikhroli-old"
   subnet_id          = module.vpc.public_subnets[0]
   security_group_ids = [aws_security_group.ec2_ssh.id]
