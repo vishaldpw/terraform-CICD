@@ -13,3 +13,27 @@ resource "aws_instance" "my-ec2" {
     application = var.app
   }
 }
+
+output "instance_id" {
+  value = aws_instance.my-ec2.id
+}
+
+output "public_ip" {
+  value = aws_instance.my-ec2.public_ip
+}
+
+output "public_dns" {
+  value = aws_instance.my-ec2.public_dns
+}
+
+output "private_ip" {
+  value = aws_instance.my-ec2.private_ip
+}
+
+output "name" {
+  value = var.instance-name
+}
+
+output "application" {
+  value = var.app
+}
