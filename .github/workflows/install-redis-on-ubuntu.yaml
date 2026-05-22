@@ -3,6 +3,9 @@ name: Install Redis on Tagged Ubuntu Hosts
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   ansible-install-redis:
     runs-on: ubuntu-latest
